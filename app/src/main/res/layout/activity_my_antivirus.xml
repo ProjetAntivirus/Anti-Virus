@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyAntivirus">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ff050505">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="140dp">
+
+            <ImageView
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                android:id="@+id/imageView2"
+                android:background="@drawable/and_loup"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Analyser un malware spécifique"
+                android:id="@+id/buttonSpecifique"
+                android:textColor="#99CC00"
+                android:onClick="options" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="140dp">
+
+            <ImageView
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                android:id="@+id/imageView"
+                android:background="@drawable/and_sac"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Tout analyser"
+                android:id="@+id/buttonAll"
+                android:textColor="#99CC00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="140dp">
+
+            <ImageView
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                android:id="@+id/imageView3"
+                android:background="@drawable/and_terre"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Protection web"
+                android:id="@+id/buttonWeb"
+                android:textColor="#99CC00"
+                android:onClick="construction" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
