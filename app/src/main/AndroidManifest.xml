@@ -36,8 +36,8 @@
 
         // Autorisation pour le content provider
         <provider
-            android:authorities="com.example.user.antivirus.contentProvider"
-            android:name="com.example.user.antivirus.contentProvider.SgaProvider"/>
+            android:authorities="contentProvider"
+            android:name=".contentProvider.SgaProvider"/>
 
         <activity
             android:name=".MainActivity"
