@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.user.antivirus.Services.GestionBatteryService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ import java.util.List;
 public class BatteryController extends Activity {
     static TextView textBatterie;
     private ListView listApp;
-   // public GestionBatteryService gestion = new GestionBatteryService();
+   public GestionBatteryService gestion = new GestionBatteryService();
     ProgressBar progBar;
 
     public static void setText (String text){

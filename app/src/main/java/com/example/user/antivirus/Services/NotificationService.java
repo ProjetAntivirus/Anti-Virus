@@ -5,36 +5,56 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.example.user.antivirus.MainActivity;
 import com.example.user.antivirus.R;
 
-public class NotificationService extends Service{
+public class NotificationService extends Service {
+    private NotificationManager mNM;
 
-    private NotificationManager mManager;
 
-    @Override
-    public IBinder onBind(Intent arg0)
-    {
-        // TODO Auto-generated method stub
-        return null;
+    public class LocalBinder extends Binder {
+        NotificationService getService() {
+            return NotificationService.this;
+        }
     }
 
     @Override
-    public void onCreate()
-    {
-        // TODO Auto-generated method stub
-        super.onCreate();
+    public void onCreate() {
+        mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        showNotification();
     }
 
-    @SuppressWarnings("static-access")
     @Override
-    public void onStart(Intent intent, int startId)
-    {
-        super.onStart(intent, startId);
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i("LocalService", "Received start id " + startId + ": " + intent);
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+        return START_STICKY;
+    }
 
-        mManager = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
+    @Override
+    public void onDestroy() {
+        // Cancel the persistent notification.
+        mNM.cancel(0);
+
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    // This is the object that receives interactions from clients.  See
+    // RemoteService for a more complete example.
+    private final IBinder mBinder = new LocalBinder();
+
+
+    private void showNotification() {
+        mNM = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
         Intent intent1 = new Intent(this.getApplicationContext(),MainActivity.class);
 
         Notification notification = new Notification(R.drawable.and_virus,"Anti-Vius", System.currentTimeMillis());
@@ -44,14 +64,6 @@ public class NotificationService extends Service{
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.setLatestEventInfo(this.getApplicationContext(), "Battery Manager", "Anti-Virus à détècté un problème d'utilisation de la batterie", pendingNotificationIntent);
 
-        mManager.notify(0, notification);
+        mNM.notify(0, notification);
     }
-
-    @Override
-    public void onDestroy()
-    {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-    }
-
 }
