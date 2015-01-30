@@ -27,7 +27,6 @@ public class BatteryController extends Activity {
     public GestionBatteryService gestion = new GestionBatteryService();
     ProgressBar progBar;
 
-
     public static void setText (String text){
         textBatterie.setText(text);
     }
@@ -118,13 +117,12 @@ public class BatteryController extends Activity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.battery_view);
-
             textBatterie = (TextView) findViewById(R.id.batterie);
 
             gestion.algoDetection();
-
+            //IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+            //registerReceiver(new BroadcastReceiverBattery(), batteryLevelFilter);
             progBar = (ProgressBar) findViewById(R.id.progressBar);
-
 
 
             //Récupération de la listview créée dans le fichier Listapp.xml
