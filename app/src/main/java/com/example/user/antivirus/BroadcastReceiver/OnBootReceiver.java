@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.user.antivirus.Services.GestionBatteryService;
+
 /**
  * Created by Pierre on 03/01/2015.
  */
@@ -13,7 +15,8 @@ public class OnBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent){
 
-
-        Toast.makeText(context, "OnBootBroadcast démar le service. ", Toast.LENGTH_LONG).show();
+        Intent launch = new Intent(context, GestionBatteryService.class);
+        context.startService(launch);
+        Toast.makeText(context, "OnBootBroadcast démare le service. ", Toast.LENGTH_LONG).show();
     }
 }

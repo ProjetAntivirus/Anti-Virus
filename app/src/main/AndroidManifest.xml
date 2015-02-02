@@ -33,6 +33,8 @@
         // Autorisation pour services
         <service android:name=".Services.NotificationService"
         android:enabled="true" />
+        <service android:name=".Services.GestionBatteryService"
+            android:enabled="true" />
 
         // Autorisation pour le content provider
         <provider

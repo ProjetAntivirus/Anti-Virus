@@ -6,9 +6,9 @@ import java.util.ArrayList;
  * Created by Max on 26/01/2015.
  */
 public abstract class StrategieObservableBattery {
-    protected static int nivBattery;
+    public static int nivBattery = 100;
 
-    private ArrayList<GestionBatteryService> observateurs = new ArrayList<>();
+    private static ArrayList<GestionBatteryService> observateurs = new ArrayList<>();
 
     public void add (GestionBatteryService gestionBattery){
         observateurs.add(gestionBattery);

@@ -13,6 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.user.antivirus.Services.BatteryTest;
+import com.example.user.antivirus.Services.GestionBatteryService;
+import com.example.user.antivirus.Services.NotificationService;
+import com.example.user.antivirus.Services.StrategieObservableBattery;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +27,6 @@ import java.util.List;
 public class BatteryController extends Activity {
     static TextView textBatterie;
     private ListView listApp;
-   //public GestionBatteryService gestion = new GestionBatteryService();
     ProgressBar progBar;
 
     public static void setText (String text){
@@ -116,14 +120,15 @@ public class BatteryController extends Activity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.battery_view);
             textBatterie = (TextView) findViewById(R.id.batterie);
-
             /*
-            gestion.algoDetection();
             IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             registerReceiver(new BroadcastReceiverBattery(), batteryLevelFilter);
             progBar = (ProgressBar) findViewById(R.id.progressBar);
-*/
 
+
+*/
+            StrategieObservableBattery strat = new BatteryTest();
+            strat.setNivBattery(30);
             //Récupération de la listview créée dans le fichier Listapp.xml
             listApp = (ListView) findViewById(R.id.listapp);
 

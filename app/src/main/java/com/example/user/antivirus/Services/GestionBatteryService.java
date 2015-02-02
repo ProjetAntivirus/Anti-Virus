@@ -1,53 +1,82 @@
 package com.example.user.antivirus.Services;
 
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.os.IBinder;
+import android.widget.Toast;
+
+import com.example.user.antivirus.BatteryController;
 import com.example.user.antivirus.ConfigApp;
 
 /**
  * Created by Max on 26/01/2015.
  */
-public class GestionBatteryService {
+public class GestionBatteryService extends Service{
     StrategieObservableBattery strategieObservableBattery;
+    private Context ctx;
 
-    public GestionBatteryService(){
+    public IBinder onBind(Intent arg0)
+    {
+        return null;
+    }
+
+    public void onCreate()
+    {
+        super.onCreate();
+        ctx = this;
         if (ConfigApp.TEST == true){
-            strategieObservableBattery = BatteryTest.getInstance();
+            strategieObservableBattery = new BatteryTest();
         }
         else {
             strategieObservableBattery = new Battery();
         }
         strategieObservableBattery.add(this);
+        //Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
+        startService();
     }
+
+    private void startService()
+    {
+        //Toast.makeText(this, "L'algorithme analyse le niveau de batterie ", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    public void onDestroy()
+    {
+        super.onDestroy();
+        //Toast.makeText(this, "L'algorithme est stoppé", Toast.LENGTH_SHORT).show();
+    }
+
 
     public void algoDetection (){
         int niveauBattery = strategieObservableBattery.getNivBattery();
-
-        /*  ALGO DE DETECTION PROBLEME BATTERIE
-            SgaProvider sga = new SgaProvider();
-            String test[] = new String[2];
-            // On récupère la derniere date de la base de donnees
-            Cursor cursor = sga.query(SgaContract.SystemCp.CONTENT_URI, test, null, null, "ASC");
-            // si il n'y a pas de donnees alors c'est la première fois que le code est execute
-            if (cursor == null) {
+        BatteryController.setText(String.valueOf(niveauBattery));
+        /*
+        SgaProvider sga = new SgaProvider();
+        String test[] = new String[2];
+        // On recupere la derniere date inséré
+        Cursor cursor = sga.query(SgaContract.SystemCp.CONTENT_URI, test, null, null, "ASC");
+        //Si elle n'existe pas
+        if (cursor == null) {
             // On insere la date actuel et le niveau de batterie actuel dans la base de donnees
+            ContentValues values = new ContentValues();
+            values.put(SgaContract.systemcpColumns.VALUE, niveauBattery);
+            values.put(SgaContract.systemcpColumns.DATE, System.currentTimeMillis());
+            Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
+        } else {
+            // si la date actuel - la derniere date insere dans la base de donnees est >= 10 minutes alors
+            if (cursor.getColumnIndex(SgaContract.SystemCp.DATE) - System.currentTimeMillis() <= ConfigApp.TIMER_ALGO) {
+                // On insere une nouvel date dans la base de donnees avec le niveau de batterie associé
                 ContentValues values = new ContentValues();
                 values.put(SgaContract.systemcpColumns.VALUE, niveauBattery);
                 values.put(SgaContract.systemcpColumns.DATE, System.currentTimeMillis());
                 Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
-            } else {
-                // si la date actuel - la derniere date insere dans la base de donnees est >= 10 minutes alors
-                if (System.currentTimeMillis() - cursor.getColumnIndex(SgaContract.SystemCp.DATE) >= 10) {
-                    // On insere une nouvel date dans la base de donnees avec le niveau de batterie associé
-                    ContentValues values = new ContentValues();
-                    values.put(SgaContract.systemcpColumns.VALUE, niveauBattery);
-                    values.put(SgaContract.systemcpColumns.DATE, System.currentTimeMillis());
-                    Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
-                    //et on demare le service qui gère les notifications
-                    Intent service1 = new Intent(context, NotificationService.class);
-                    context.startService(service1);
-                }
+                //et on demare le service qui gère les notifications pour avertir l'utilisateur
+                Intent service1 = new Intent(getApplicationContext(), NotificationService.class);
+                getApplicationContext().startService(service1);
             }
-             }
-            */
-
+        }*/
     }
 }
