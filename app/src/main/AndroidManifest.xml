@@ -39,7 +39,7 @@
         // Autorisation pour le content provider
         <provider
             android:authorities="contentProvider"
-            android:name=".contentProvider.SgaProvider"/>
+            android:name=".contentProvider.Provider"/>
 
         <activity
             android:name=".MainActivity"
