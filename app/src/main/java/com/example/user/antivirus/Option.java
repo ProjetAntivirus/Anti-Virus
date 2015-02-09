@@ -36,6 +36,16 @@ public class Option extends Activity {
             }
         });
 
+        final Button sms= (Button) findViewById(R.id.buttonSMS);
+        sms.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Option.this, SmsController.class);
+                startActivity(intent);
+            }
+        });
+
 
 
 

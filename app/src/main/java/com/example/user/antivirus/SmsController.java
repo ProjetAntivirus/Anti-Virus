@@ -1,7 +1,34 @@
 package com.example.user.antivirus;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 /**
  * Created by Pierre on 13/12/2014.
  */
-public class SmsController {
+public class SmsController extends Activity {
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.sms_view);
+
+
+        final Button view = (Button) findViewById(R.id.repertoryButton);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SmsController.this, ContactRepertory.class);
+                startActivity(intent);
+            }
+        });
+
+
+        }
+
 }
+
