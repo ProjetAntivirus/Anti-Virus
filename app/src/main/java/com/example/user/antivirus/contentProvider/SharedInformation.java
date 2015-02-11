@@ -1,19 +1,15 @@
 package com.example.user.antivirus.contentProvider;
 
-import android.provider.BaseColumns;
-
-import com.example.user.antivirus.Services.Battery;
-
 /**
- * Created by Max on 09/02/2015.
+ * Created by Max on 11/02/2015.
  */
 public class SharedInformation {
-    public SharedInformation (){}
-
-    public static final class Battery implements BaseColumns {
-        public Battery (){}
-
-        public static final String BATTERY_VALUE = "BATTERY_VALUE";
-        public static final String BATTERY_VALUE_DATE = "BATTERY_VALUE_DATE";
+    public class BatteryInformation{
+        public static final String ID = "id";
+        public static final String NAME = "name";
+        public static final String TABLE_NAME = "BatteryTable";
+        public static final String CREATE_DB_TABLE = " CREATE TABLE " + TABLE_NAME
+                + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +  NAME + " TEXT NOT NULL);";
     }
 }

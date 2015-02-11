@@ -1,13 +1,18 @@
 package com.example.user.antivirus.Services;
 
 import android.app.Service;
+import android.app.SharedElementCallback;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.IBinder;
 import android.widget.Toast;
 
 import com.example.user.antivirus.BatteryController;
 import com.example.user.antivirus.ConfigApp;
+import com.example.user.antivirus.contentProvider.MyProvider;
+import com.example.user.antivirus.contentProvider.SharedInformation;
 
 /**
  * Created by Max on 26/01/2015.
@@ -53,6 +58,11 @@ public class GestionBatteryService extends Service{
     public void algoDetection (){
         int niveauBattery = strategieObservableBattery.getNivBattery();
         BatteryController.setText(String.valueOf(niveauBattery));
+        ContentValues values = new ContentValues();
+        values.put(SharedInformation.BatteryInformation.NAME, String.valueOf(niveauBattery));
+        Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
+        Toast.makeText(getBaseContext(), "New record inserted", Toast.LENGTH_LONG)
+                .show();
         /*
         SgaProvider sga = new SgaProvider();
         String test[] = new String[2];

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/and_virus"
@@ -37,9 +38,6 @@
             android:enabled="true" />
 
         // Autorisation pour le content provider
-        <provider
-            android:authorities="contentProvider"
-            android:name=".contentProvider.Provider"/>
 
         <activity
             android:name=".MainActivity"
@@ -69,6 +67,11 @@
 
 
 
-
+        <provider
+            android:name=".contentProvider.MyProvider"
+            android:authorities="com.antivirus.provider"
+            android:exported="true"
+            android:multiprocess="true" >
+        </provider>
 </application>
 </manifest>
