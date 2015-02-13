@@ -13,11 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.example.user.antivirus.Services.BatteryTest;
-import com.example.user.antivirus.Services.GestionBatteryService;
-import com.example.user.antivirus.Services.NotificationService;
-import com.example.user.antivirus.Services.StrategieObservableBattery;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,75 +27,6 @@ public class BatteryController extends Activity {
     public static void setText (String text){
         textBatterie.setText(text);
     }
-    /*BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            // On récupère le niveau de la batterie
-            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-            int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0);
-
-            // on insere le niveau de batterie dans le textBatterie de l'affichage pour un niveau en temps reel
-            textBatterie.setText("\t" + level + "  % \n");
-            progBar.setMax(100);
-            progBar.setProgress(level);
-            progBar.getProgressDrawable().setColorFilter(Color.parseColor("#99CC00"), PorterDuff.Mode.SRC_IN);
-            progBar.setContentDescription(View.TEXT_ALIGNMENT_TEXT_END+level+"%");
-
-
-
-
-            // TEST
-            // Toast de test pour vérifier que le broadcast intervient bien au changement de niveau
-            // Toast.makeText(context, "Battery niveau/Action Changed" + level, Toast.LENGTH_LONG).show();
-
-/*  TEST CONTENT PROVIDER : INSERT ET QUERY*/
-            //SgaProvider sga = new SgaProvider();
-            //sga.onCreate();
-            // sga.query(SgaContract.BASE_CONTENT_URI,);
-            //ContentValues values = new ContentValues();
-            //values.put( SgaContract.systemcpColumns.VALUE , "test");
-                //Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
-            //textBatterie.setText("N " + "erreur insert" + "\n");/*
-        /*if (uri == null)
-            textBatterie.setText("N " + "bonjour" +"\n");
-        else {
-            String test[] = new String[2];
-            test[0] = SgaContract.systemcpColumns.VALUE;
-            Cursor cursor = sga.query(uri, test, null, null, "ASC");
-            textBatterie.setText("N " + cursor.toString() + "\n");
-        }
-*/
-
-/*  ALGO DE DETECTION PROBLEME BATTERIE
-            SgaProvider sga = new SgaProvider();
-            String test[] = new String[2];
-            // On récupère la derniere date de la base de donnees
-            Cursor cursor = sga.query(SgaContract.SystemCp.CONTENT_URI, test, null, null, "ASC");
-            // si il n'y a pas de donnees alors c'est la première fois que le code est execute
-            if (cursor == null) {
-            // On insere la date actuel et le niveau de batterie actuel dans la base de donnees
-                ContentValues values = new ContentValues();
-                values.put(SgaContract.systemcpColumns.VALUE, level);
-                values.put(SgaContract.systemcpColumns.DATE, System.currentTimeMillis());
-                Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
-            } else {
-                // si la date actuel - la derniere date insere dans la base de donnees est >= 10 minutes alors
-                if (System.currentTimeMillis() - cursor.getColumnIndex(SgaContract.SystemCp.DATE) >= 10) {
-                    // On insere une nouvel date dans la base de donnees avec le niveau de batterie associé
-                    ContentValues values = new ContentValues();
-                    values.put(SgaContract.systemcpColumns.VALUE, level);
-                    values.put(SgaContract.systemcpColumns.DATE, System.currentTimeMillis());
-                    Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
-                    //et on demare le service qui gère les notifications
-                    Intent service1 = new Intent(context, NotificationSevice.class);
-                    context.startService(service1);
-                }
-            }
-
-        }
-        };*/
-
 
         public List<ApplicationInfo> applicationName() {
             //Récupère la liste des applications installées
@@ -127,8 +53,8 @@ public class BatteryController extends Activity {
 
 
 */
-            StrategieObservableBattery strat = new BatteryTest();
-            strat.setNivBattery(30);
+            //StrategieObservableBattery strat = new BatteryTest();
+           // strat.setNivBattery(30);
             //Récupération de la listview créée dans le fichier Listapp.xml
             listApp = (ListView) findViewById(R.id.listapp);
 

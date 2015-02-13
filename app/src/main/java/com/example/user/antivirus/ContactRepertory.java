@@ -49,15 +49,7 @@ public class ContactRepertory extends Activity {
         });
     }
 
-    private boolean isSurtaxed(String phone){
-            if (phone.startsWith("08") || phone.startsWith("0 8") ||  phone.startsWith("1") || phone.startsWith("3") || phone.startsWith("+338") || phone.startsWith("+331")){
-                return true;
-            }
-        return false;
-    }
-
     private void viewContact(){
-
     ContentResolver cr = getContentResolver();
     Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
             null, null, null, null);
@@ -82,8 +74,16 @@ public class ContactRepertory extends Activity {
             }
         }
     }
-
 }
+
+
+    private boolean isSurtaxed(String phone){
+        if (phone.startsWith("08") || phone.startsWith("0 8") ||  phone.startsWith("1") || phone.startsWith("3") || phone.startsWith("+338") || phone.startsWith("+331")){
+            return true;
+        }
+        return false;
+    }
+
 
     private void deleteContact(String s) {
         String f [] = s.split (" : ") ;
@@ -91,7 +91,6 @@ public class ContactRepertory extends Activity {
         ContentResolver cr = getContentResolver();
         String where = ContactsContract.Data.DISPLAY_NAME + " = ? ";
         String[] params = new String[]{name};
-
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newDelete(ContactsContract.RawContacts.CONTENT_URI)
                 .withSelection(where, params)

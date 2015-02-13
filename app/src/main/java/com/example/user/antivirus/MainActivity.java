@@ -1,7 +1,6 @@
 package com.example.user.antivirus;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,10 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.user.antivirus.Services.BatteryTest;
 import com.example.user.antivirus.Services.GestionBatteryService;
-
-import java.util.Random;
 
 
 public class MainActivity extends Activity {
@@ -20,9 +16,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_my_antivirus);
+
         Intent i = new Intent(MainActivity.this, GestionBatteryService.class);
         startService(i);
 
