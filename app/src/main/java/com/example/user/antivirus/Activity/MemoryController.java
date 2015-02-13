@@ -1,4 +1,4 @@
-package com.example.user.antivirus;
+package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -26,6 +26,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.user.antivirus.R;
 
 import java.io.File;
 import java.text.DecimalFormat;

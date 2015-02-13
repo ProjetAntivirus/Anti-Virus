@@ -1,4 +1,4 @@
-package com.example.user.antivirus;
+package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
 import android.content.ContentProviderOperation;
@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.user.antivirus.R;
 
 import java.util.ArrayList;
 

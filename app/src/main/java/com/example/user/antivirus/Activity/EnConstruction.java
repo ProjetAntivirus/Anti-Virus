@@ -1,7 +1,9 @@
-package com.example.user.antivirus;
+package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.example.user.antivirus.R;
 
 /**
  * Created by user on 04/12/2014.

@@ -1,4 +1,4 @@
-package com.example.user.antivirus;
+package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
 import android.content.pm.ApplicationInfo;
@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.example.user.antivirus.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

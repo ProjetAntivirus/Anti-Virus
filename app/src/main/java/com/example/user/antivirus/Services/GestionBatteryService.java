@@ -1,7 +1,6 @@
 package com.example.user.antivirus.Services;
 
 import android.app.Service;
-import android.app.SharedElementCallback;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.example.user.antivirus.BatteryController;
+import com.example.user.antivirus.Activity.BatteryController;
 import com.example.user.antivirus.ConfigApp;
 import com.example.user.antivirus.contentProvider.MyProvider;
 import com.example.user.antivirus.contentProvider.SharedInformation;
