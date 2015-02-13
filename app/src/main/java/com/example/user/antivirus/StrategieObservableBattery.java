@@ -1,4 +1,6 @@
-package com.example.user.antivirus.Services;
+package com.example.user.antivirus;
+
+import com.example.user.antivirus.Services.GestionBatteryService;
 
 import java.util.ArrayList;
 

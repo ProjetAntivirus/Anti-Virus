@@ -3,7 +3,6 @@ package com.example.user.antivirus.BroadcastReceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.example.user.antivirus.Services.GestionBatteryService;
 
@@ -14,9 +13,7 @@ public class OnBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent){
-
         Intent launch = new Intent(context, GestionBatteryService.class);
         context.startService(launch);
-        Toast.makeText(context, "OnBootBroadcast démare le service. ", Toast.LENGTH_LONG).show();
     }
 }

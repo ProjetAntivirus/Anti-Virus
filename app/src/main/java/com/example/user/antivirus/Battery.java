@@ -1,4 +1,4 @@
-package com.example.user.antivirus.Services;
+package com.example.user.antivirus;
 
 /**
  * Created by Max on 26/01/2015.

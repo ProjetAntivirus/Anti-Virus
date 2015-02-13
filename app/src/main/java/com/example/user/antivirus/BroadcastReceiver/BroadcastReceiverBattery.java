@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.BatteryManager;
 
-import com.example.user.antivirus.Services.Battery;
-import com.example.user.antivirus.Services.StrategieObservableBattery;
+import com.example.user.antivirus.Battery;
+import com.example.user.antivirus.StrategieObservableBattery;
 
 /**
  * Created by Max on 26/01/2015.

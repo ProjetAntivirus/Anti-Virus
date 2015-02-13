@@ -9,7 +9,10 @@ import android.os.IBinder;
 import android.widget.Toast;
 
 import com.example.user.antivirus.Activity.BatteryController;
+import com.example.user.antivirus.Battery;
+import com.example.user.antivirus.BatteryTest;
 import com.example.user.antivirus.ConfigApp;
+import com.example.user.antivirus.StrategieObservableBattery;
 import com.example.user.antivirus.contentProvider.MyProvider;
 import com.example.user.antivirus.contentProvider.SharedInformation;
 

@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_antivirus);
 
+        // Utile car le onBoot detecte uniquement le demarage de mon telephone nous devons donc le lancer manuellement
         Intent i = new Intent(MainActivity.this, GestionBatteryService.class);
         startService(i);
 
