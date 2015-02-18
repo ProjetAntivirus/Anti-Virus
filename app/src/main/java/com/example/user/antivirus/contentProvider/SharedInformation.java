@@ -6,10 +6,12 @@ package com.example.user.antivirus.contentProvider;
 public class SharedInformation {
     public class BatteryInformation{
         public static final String ID = "id";
-        public static final String NAME = "name";
+        public static final String LEVEL = "level";
+        public static final String DATE = "date";
         public static final String TABLE_NAME = "BatteryTable";
         public static final String CREATE_DB_TABLE = " CREATE TABLE " + TABLE_NAME
                 + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +  NAME + " TEXT NOT NULL);";
+                + " (" + DATE + "LONG NOT NULL, "
+                +  LEVEL + " INTEGER NOT NULL);";
     }
 }

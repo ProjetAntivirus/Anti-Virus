@@ -6,4 +6,5 @@ package com.example.user.antivirus;
 public class ConfigApp {
     public static final boolean DEBUG = false;
     public static final boolean TEST = true;
+    public static final int TIMER_ALGO = 180000;
 }

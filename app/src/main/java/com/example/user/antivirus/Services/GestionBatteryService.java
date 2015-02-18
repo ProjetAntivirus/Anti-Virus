@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -39,13 +40,13 @@ public class GestionBatteryService extends Service{
             strategieObservableBattery = new Battery();
         }
         strategieObservableBattery.add(this);
-        //Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Service Created", Toast.LENGTH_SHORT).show();
         startService();
     }
 
     private void startService()
     {
-        //Toast.makeText(this, "L'algorithme analyse le niveau de batterie ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -53,42 +54,36 @@ public class GestionBatteryService extends Service{
     public void onDestroy()
     {
         super.onDestroy();
-        //Toast.makeText(this, "L'algorithme est stoppé", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Service stoped", Toast.LENGTH_SHORT).show();
     }
 
+
+    private void insertData(int niveauBattery){
+        ContentValues values = new ContentValues();
+        values.put(SharedInformation.BatteryInformation.LEVEL, niveauBattery);
+        values.put(SharedInformation.BatteryInformation.DATE, System.currentTimeMillis());
+        getContentResolver().insert(MyProvider.CONTENT_URI, values);
+        Toast.makeText(this, "Insertion de : "+String.valueOf(niveauBattery)+System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
+    }
 
     public void algoDetection (){
         int niveauBattery = strategieObservableBattery.getNivBattery();
         BatteryController.setText(String.valueOf(niveauBattery));
-        ContentValues values = new ContentValues();
-        values.put(SharedInformation.BatteryInformation.NAME, String.valueOf(niveauBattery));
-        Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
-        Toast.makeText(getBaseContext(), "New record inserted", Toast.LENGTH_LONG)
-                .show();
-        /*
-        SgaProvider sga = new SgaProvider();
-        String test[] = new String[2];
-        // On recupere la derniere date inséré
-        Cursor cursor = sga.query(SgaContract.SystemCp.CONTENT_URI, test, null, null, "ASC");
-        //Si elle n'existe pas
+        MyProvider provider = new MyProvider();
+        String columns[] = new String[] {SharedInformation.BatteryInformation.ID, SharedInformation.BatteryInformation.LEVEL, SharedInformation.BatteryInformation.DATE };
+        Uri mContacts = MyProvider.CONTENT_URI;
+        Cursor cursor = provider.query(mContacts, columns, null, null, "ASC");
+        //Si la base de données est vide
         if (cursor == null) {
-            // On insere la date actuel et le niveau de batterie actuel dans la base de donnees
-            ContentValues values = new ContentValues();
-            values.put(SgaContract.systemcpColumns.VALUE, niveauBattery);
-            values.put(SgaContract.systemcpColumns.DATE, System.currentTimeMillis());
-            Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
+            insertData(niveauBattery);
         } else {
-            // si la date actuel - la derniere date insere dans la base de donnees est >= 10 minutes alors
-            if (cursor.getColumnIndex(SgaContract.SystemCp.DATE) - System.currentTimeMillis() <= ConfigApp.TIMER_ALGO) {
-                // On insere une nouvel date dans la base de donnees avec le niveau de batterie associé
-                ContentValues values = new ContentValues();
-                values.put(SgaContract.systemcpColumns.VALUE, niveauBattery);
-                values.put(SgaContract.systemcpColumns.DATE, System.currentTimeMillis());
-                Uri uri = sga.insert(SgaContract.SystemCp.CONTENT_URI, values);
+            // si la date actuel - la derniere date insere dans la base de donnees est <= TIME_ALGO minutes alors
+            if (cursor.getColumnIndex(SharedInformation.BatteryInformation.DATE) - System.currentTimeMillis() <= ConfigApp.TIMER_ALGO) {
+                insertData(niveauBattery);
                 //et on demare le service qui gère les notifications pour avertir l'utilisateur
                 Intent service1 = new Intent(getApplicationContext(), NotificationService.class);
                 getApplicationContext().startService(service1);
             }
-        }*/
+        }
     }
 }

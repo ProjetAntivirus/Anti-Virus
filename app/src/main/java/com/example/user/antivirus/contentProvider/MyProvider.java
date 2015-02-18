@@ -92,7 +92,7 @@ public class MyProvider extends ContentProvider{
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
         if (sortOrder == null || sortOrder == "") {
-            sortOrder = SharedInformation.BatteryInformation.NAME;
+            sortOrder = String.valueOf(SharedInformation.BatteryInformation.DATE);
         }
         Cursor c = qb.query(db, projection, selection, selectionArgs, null,
                 null, sortOrder);
