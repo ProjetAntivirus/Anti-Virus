@@ -1,17 +1,21 @@
 package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user.antivirus.R;
 
@@ -25,6 +29,8 @@ public class BatteryController extends Activity {
     static TextView textBatterie;
     private ListView listApp;
     ProgressBar progBar;
+    Button btnCheckBattery;
+    Intent intentBatteryUsage;
 
     public static void setText (String text){
         textBatterie.setText(text);
@@ -58,6 +64,29 @@ public class BatteryController extends Activity {
             //StrategieObservableBattery strat = new BatteryTest();
            // strat.setNivBattery(30);
             //Récupération de la listview créée dans le fichier Listapp.xml
+
+
+            btnCheckBattery = (Button)findViewById(R.id.checkBattery);
+
+            intentBatteryUsage = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+            ResolveInfo resolveInfo = getPackageManager().resolveActivity(intentBatteryUsage,0);
+
+            if(resolveInfo == null){
+                Toast.makeText(BatteryController.this, "Not Support!",
+                        Toast.LENGTH_LONG).show();
+                btnCheckBattery.setEnabled(false);
+            }else{
+                btnCheckBattery.setEnabled(true);
+            }
+
+            btnCheckBattery.setOnClickListener(new Button.OnClickListener(){
+
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    startActivity(intentBatteryUsage);
+                }});
+
+
             listApp = (ListView) findViewById(R.id.listapp);
 
             //récupérer applications (nom et icon)
