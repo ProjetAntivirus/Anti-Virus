@@ -32,9 +32,7 @@ public class ContactRepertory extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.analyse_repertoire);
         listView = (ListView) findViewById(R.id.list);
-
         viewContact();
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         listView.setAdapter(adapter);
@@ -51,6 +49,9 @@ public class ContactRepertory extends Activity {
         });
     }
 
+    /*
+    *   Metgode qui permet d'analyser et d'afficher les numero surtaxés
+     */
     private void viewContact(){
     ContentResolver cr = getContentResolver();
     Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
@@ -79,7 +80,10 @@ public class ContactRepertory extends Activity {
     }
 }
 
-
+    /*
+    *   Methode static qui permet de savoir si un numéro est surtxé ou non
+    *   Renvoie true si le numéro est surtxé. Renvoie False sinon.
+    */
     public static boolean isSurtaxed(String phone){
         if (phone.startsWith("08") || phone.startsWith("0 8") || phone.startsWith("3") || phone.startsWith("+338") || phone.startsWith("+331")){
             return true;
@@ -87,7 +91,10 @@ public class ContactRepertory extends Activity {
         return false;
     }
 
-
+    /*
+    *   Méthode static qui permet l'insertion d'un numéro surtaxé dans le content provider
+    *   Utilisé par Contactrepertory, SMSReceiver et SMSEnvoye
+    */
     public static void insertNum(String phoneNumber){
         /*
         ContentValues values = new ContentValues();
@@ -98,7 +105,9 @@ public class ContactRepertory extends Activity {
     }
 
 
-
+    /*
+    *   Méthode qui permet de supprimer un contact du repertoire
+     */
     private void deleteContact(String s) {
         String f [] = s.split (" : ") ;
         String name = f[0];
