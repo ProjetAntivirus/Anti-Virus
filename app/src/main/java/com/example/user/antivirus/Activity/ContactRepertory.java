@@ -70,6 +70,7 @@ public class ContactRepertory extends Activity {
                     String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     if(isSurtaxed(phoneNo)){
                         values.add(name + " : " + phoneNo);
+                        insertNum(phoneNo);
                     }
                 }
                 pCur.close();
@@ -79,12 +80,23 @@ public class ContactRepertory extends Activity {
 }
 
 
-    private boolean isSurtaxed(String phone){
-        if (phone.startsWith("08") || phone.startsWith("0 8") ||  phone.startsWith("1") || phone.startsWith("3") || phone.startsWith("+338") || phone.startsWith("+331")){
+    public static boolean isSurtaxed(String phone){
+        if (phone.startsWith("08") || phone.startsWith("0 8") || phone.startsWith("3") || phone.startsWith("+338") || phone.startsWith("+331")){
             return true;
         }
         return false;
     }
+
+
+    public static void insertNum(String phoneNumber){
+        /*
+        ContentValues values = new ContentValues();
+        values.put(SharedInformation.BatteryInformation.NUM, phoneNumber);
+        values.put(SharedInformation.BatteryInformation.DATE, System.currentTimeMillis());
+        getContentResolver().insert(MyProvider.CONTENT_URI, values);
+        */
+    }
+
 
 
     private void deleteContact(String s) {
@@ -100,10 +112,8 @@ public class ContactRepertory extends Activity {
         try {
             cr.applyBatch(ContactsContract.AUTHORITY, ops);
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (OperationApplicationException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
