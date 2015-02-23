@@ -11,7 +11,7 @@ public class SharedInformation {
         public static final String TABLE_NAME = "BatteryTable";
         public static final String CREATE_DB_TABLE = " CREATE TABLE " + TABLE_NAME
                 + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + " (" + DATE + "LONG NOT NULL, "
+                + DATE + "LONG NOT NULL, "
                 +  LEVEL + " INTEGER NOT NULL);";
     }
 }
