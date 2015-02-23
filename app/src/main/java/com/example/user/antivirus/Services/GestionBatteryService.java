@@ -72,7 +72,7 @@ public class GestionBatteryService extends Service{
         MyProvider provider = new MyProvider();
         String columns[] = new String[] {SharedInformation.BatteryInformation.ID, SharedInformation.BatteryInformation.LEVEL, SharedInformation.BatteryInformation.DATE };
         Uri mContacts = MyProvider.CONTENT_URI;
-        Cursor cursor = provider.query(mContacts, columns, null, null, "ASC");
+        Cursor cursor = null;// provider.query(mContacts, columns, null, null, "ASC");
         //Si la base de données est vide
         if (cursor == null) {
             insertData(niveauBattery);

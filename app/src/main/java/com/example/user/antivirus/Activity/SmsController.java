@@ -29,6 +29,14 @@ public class SmsController extends Activity {
             }
         });
 
+        final Button view2 = (Button) findViewById(R.id.smsEnvoye);
+        view2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SmsController.this, SmsEnvoyes.class);
+                startActivity(intent);
+            }
+        });
 
         }
 

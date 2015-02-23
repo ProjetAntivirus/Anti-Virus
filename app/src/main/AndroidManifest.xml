@@ -49,5 +49,7 @@
         <activity android:name=".Activity.BatteryController" android:label="@string/app_name" />
         <activity android:name=".Activity.SmsController" android:label="@string/app_name" />
         <activity android:name=".Activity.ContactRepertory" android:label="@string/app_name"/>
+        <activity android:name=".Activity.SmsEnvoyes" android:label="@string/app_name"/>
+        <activity android:name=".Activity.SMS" android:label="@string/app_name"/>
     </application>
 </manifest>
