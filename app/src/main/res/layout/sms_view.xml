@@ -2,13 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#ff050505">
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Analyser le repertoire"
-        android:id="@+id/repertoryButton"
-        android:layout_weight="0.04" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="140dp">
+
+        <ImageView
+            android:layout_width="69dp"
+            android:layout_height="69dp"
+            android:id="@+id/imageView4"
+            android:background="@drawable/sms"
+            android:layout_gravity="center" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Analyser les sms envoyés"
+            android:id="@+id/smsEnvoye"
+            android:singleLine="false"
+            android:textColor="#99CC00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="140dp">
+
+        <ImageView
+            android:layout_width="69dp"
+            android:layout_height="69dp"
+            android:id="@+id/imageView5"
+            android:background="@drawable/repertory"
+            android:layout_gravity="center" />/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Analyser le repertoire"
+            android:id="@+id/repertoryButton"
+            android:textColor="#99CC00" />
+    </LinearLayout>
 </LinearLayout>

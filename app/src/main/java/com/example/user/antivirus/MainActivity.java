@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.example.user.antivirus.Activity.EnConstruction;
 import com.example.user.antivirus.Activity.Option;
+import com.example.user.antivirus.Activity.SMS;
 import com.example.user.antivirus.Services.GestionBatteryService;
 
 
@@ -24,8 +25,8 @@ public class MainActivity extends Activity {
         Intent i = new Intent(MainActivity.this, GestionBatteryService.class);
         startService(i);
 
-        final Button Malware = (Button) findViewById(R.id.buttonSpecifique);
-        Malware.setOnClickListener(new View.OnClickListener() {
+        final Button Composant = (Button) findViewById(R.id.buttonComposant);
+        Composant.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -34,18 +35,18 @@ public class MainActivity extends Activity {
             }
         });
 
-        final Button ToutAnalyser = (Button) findViewById(R.id.buttonAll);
-        ToutAnalyser.setOnClickListener(new View.OnClickListener() {
+        final Button Flux = (Button) findViewById(R.id.buttonFlux);
+        Flux.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EnConstruction.class);
+                Intent intent = new Intent(MainActivity.this, SMS.class);
                 startActivity(intent);
             }
         });
 
-        final Button web = (Button) findViewById(R.id.buttonWeb);
-        web.setOnClickListener(new View.OnClickListener() {
+        final Button App = (Button) findViewById(R.id.buttonApp);
+        App.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
