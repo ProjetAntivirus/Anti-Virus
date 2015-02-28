@@ -27,6 +27,9 @@ public class ContactRepertory extends Activity {
     private ArrayList values = new ArrayList<String>();
     ListView listView;
 
+    /*
+    * Création de l'activité qui affichera la liste des numeros surtaxés
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

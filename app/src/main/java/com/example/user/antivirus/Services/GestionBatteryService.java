@@ -29,6 +29,9 @@ public class GestionBatteryService extends Service{
         return null;
     }
 
+    /*
+    Création du service en fonction de la methode de détection utilisée.
+     */
     public void onCreate()
     {
         super.onCreate();
@@ -44,13 +47,18 @@ public class GestionBatteryService extends Service{
         startService();
     }
 
+    /*
+    * On démarre le servive
+     */
     private void startService()
     {
         Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
 
     }
 
-
+    /*
+    * On stop le service
+     */
     public void onDestroy()
     {
         super.onDestroy();
@@ -58,6 +66,9 @@ public class GestionBatteryService extends Service{
     }
 
 
+    /*
+    * Methode d'insertion du niveau de batterie à une date donnée du systeme.
+     */
     private void insertData(int niveauBattery){
         ContentValues values = new ContentValues();
         values.put(SharedInformation.BatteryInformation.LEVEL, niveauBattery);
@@ -66,6 +77,12 @@ public class GestionBatteryService extends Service{
         Toast.makeText(this, "Insertion de : "+String.valueOf(niveauBattery)+System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    * Algrithme de détection d'un problème sur le niveau de la batterie.
+    * Recupère la derniere date à laquelle il y a eu une modification du niveau de batterie, la campare à la date actuelle
+    * Si le temps est trop court, alors on leve une notiication
+    * On insere la dernier date de changement de batterie dans le content provider
+     */
     public void algoDetection (){
         int niveauBattery = strategieObservableBattery.getNivBattery();
         BatteryController.setText(String.valueOf(niveauBattery));
