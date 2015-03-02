@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.example.user.antivirus.R;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class SmsEnvoyes extends Activity {
 
+    public TextView textSMS;
     private ListView listMess;
 
     //Vérification si le numéro est surtaxé
@@ -63,6 +65,11 @@ public class SmsEnvoyes extends Activity {
                 }
             }
             c.close();
+
+            if(listnum.isEmpty()){
+                textSMS = (TextView) findViewById(R.id.SMSVide);
+                textSMS.setText("Aucun sms n'a été dernièrement envoyé à un numéro surtaxé.");
+            }
 
             int i;
             for(i=0; i<listnum.size();i++) {

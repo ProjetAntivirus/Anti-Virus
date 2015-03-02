@@ -24,7 +24,8 @@
             android:text="Analyser les sms envoyés"
             android:id="@+id/smsEnvoye"
             android:singleLine="false"
-            android:textColor="#99CC00" />
+            android:textColor="#99CC00"
+            android:clickable="true" />
 
     </LinearLayout>
 

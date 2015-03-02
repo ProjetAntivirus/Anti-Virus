@@ -3,10 +3,18 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    >
+    android:background="#ff4f4f4f">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SMSVide"
+        android:textColor="#99CC00" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:id="@+id/listView"
+        android:background="#ff4f4f4f" />
+
 </LinearLayout>

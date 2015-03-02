@@ -2,16 +2,20 @@ package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Debug;
@@ -21,6 +25,7 @@ import android.os.Parcelable;
 import android.os.StatFs;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -30,6 +35,7 @@ import android.widget.Toast;
 import com.example.user.antivirus.R;
 
 import java.io.File;
+import java.net.URI;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -169,7 +175,7 @@ public class MemoryController extends Activity {
 
         //récupérer applications (nom et icon)
         List<ApplicationInfo> listAppli= applicationName();
-        List<String> listNameApp = new ArrayList<String>();
+        final List<String> listNameApp = new ArrayList<String>();
         List<Drawable> listIconApp = new ArrayList();
         // List<int> listMemoryApp = new ArrayList();
 
@@ -228,6 +234,51 @@ public class MemoryController extends Activity {
                 else return false;
             }
         });
+
+        listApplication.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            @SuppressWarnings("unchecked")
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                //on récupère la HashMap contenant les infos de notre app
+                HashMap<String, String> map = (HashMap<String, String>) listApplication.getItemAtPosition(position);
+                //on créer une boite de dialogue
+                AlertDialog.Builder adb = new AlertDialog.Builder(MemoryController.this);
+                //on attribut un titre à notre boite de dialogue
+                adb.setMessage(map.get("titre"));
+                final String name = map.get("titre");
+                //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+                adb.setMessage("Voulez-vous désinstaller cette application ?");
+                //on indique que l'on veut des boutons
+                adb.setNegativeButton("Annuler", null);
+                adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which){
+
+                        List<ApplicationInfo> listAppli= applicationName();
+                        for(ApplicationInfo applicationInfo : listAppli){
+                            PackageManager pack = getPackageManager();
+                            String app =(String)pack.getApplicationLabel(applicationInfo);
+                            if(app == name){
+                                String dir = applicationInfo.sourceDir;
+                                String name = applicationInfo.packageName;
+                                //String path = applicationInfo.installLocation;
+                                Uri packageUri = Uri.parse(name);
+                                Intent uninstallIntent =
+                                        new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri );
+                                startActivity(uninstallIntent);
+                            }
+                        }
+
+                        Uri packageUri = Uri.parse("package:com.packageName");
+                        Intent uninstallIntent =
+                                new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
+                        startActivity(uninstallIntent);
+                    }
+                });
+                //on affiche la boite de dialogue
+                adb.show();
+            }
+        });
+
     }
 }
 
