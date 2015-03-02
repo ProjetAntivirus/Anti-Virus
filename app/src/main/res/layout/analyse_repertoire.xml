@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+<<<<<<< HEAD
     android:layout_height="match_parent"
     android:weightSum="1"
     android:background="#ff4f4f4f">
 
 
+=======
+    android:layout_height="match_parent">
+>>>>>>> 53fe2826d20dc7fa7eb1ef2618229639db189636
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,12 +18,16 @@
         android:layout_weight="1.03"
         style="@style/AppTheme"
         android:textSize="20dp"
-        android:textColor="#ffff1621" />
+        android:textColor="#99CC00"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="471dp"
         android:id="@+id/list"
+<<<<<<< HEAD
         android:background="#ff4f4f4f" />
+=======
+        android:textColor="#99CC00"/>
+>>>>>>> 53fe2826d20dc7fa7eb1ef2618229639db189636
 
 </LinearLayout>

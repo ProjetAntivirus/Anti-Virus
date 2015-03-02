@@ -7,7 +7,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.example.user.antivirus.MainActivity;
 import com.example.user.antivirus.R;
@@ -22,6 +21,9 @@ public class NotificationService extends Service {
         }
     }
 
+    /*
+    * Création du service de notification
+     */
     @Override
     public void onCreate() {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
@@ -30,9 +32,6 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
-        // We want this service to continue running until it is explicitly
-        // stopped, so return sticky.
         return START_STICKY;
     }
 
@@ -53,6 +52,9 @@ public class NotificationService extends Service {
     private final IBinder mBinder = new LocalBinder();
 
 
+    /*
+    * Méthode d'affichage de la notification dans le notification manager du smartphone
+     */
     private void showNotification() {
         mNM = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
         Intent intent1 = new Intent(this.getApplicationContext(),MainActivity.class);

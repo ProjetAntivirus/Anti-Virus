@@ -9,6 +9,9 @@ import com.example.user.antivirus.Services.GestionBatteryService;
 /**
  * Created by Pierre on 03/01/2015.
  */
+/*
+Broadcast receiver qui detecte le démarrage du téléphone pour lancer notre service de détéction.
+ */
 public class OnBootReceiver extends BroadcastReceiver {
 
     @Override

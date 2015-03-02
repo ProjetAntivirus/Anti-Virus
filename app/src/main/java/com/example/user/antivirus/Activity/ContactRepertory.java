@@ -1,12 +1,15 @@
 package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -22,18 +25,82 @@ import java.util.ArrayList;
 /**
  * Created by Pierre on 08/02/2015.
  */
-public class ContactRepertory extends Activity {
+public class ContactRepertory extends Activity implements Runnable{
 
     private ArrayList values = new ArrayList<String>();
     ListView listView;
+    private ProgressDialog mprogressDialog;
+    String currentContact;
+    ArrayAdapter<String> adapter;
 
+
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            int i = msg.what;
+            switch (i) {
+                case 0:
+                    mprogressDialog.setMessage("Analyse des contacts en cours...");
+                    mprogressDialog.setMessage("Analyse en cours ... : " +currentContact); break;
+                default:
+                    adapter.notifyDataSetChanged();
+                    mprogressDialog.dismiss();
+            }
+        }
+    };
+
+
+
+    public void run(){
+        ContentResolver cr = getContentResolver();
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null);
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                if (Integer.parseInt(cur.getString(
+                        cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    Cursor pCur = cr.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{id}, null);
+                    while (pCur.moveToNext()) {
+                        String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        currentContact=name;
+                        handler.sendEmptyMessage(0);
+                        if(isSurtaxed(phoneNo)){
+                            values.add(name+" : "+phoneNo);
+                            insertNum(phoneNo);
+                        }
+                    }
+                    pCur.close();
+                }
+            }
+        }
+        if(values.isEmpty()){
+
+        }
+        handler.sendEmptyMessage(1);
+    }
+
+    /*
+    * Création de l'activité qui affichera la liste des numeros surtaxés
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.analyse_repertoire);
         listView = (ListView) findViewById(R.id.list);
-        viewContact();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+
+        mprogressDialog = new ProgressDialog(this);
+        mprogressDialog.setTitle("Analyse");
+        mprogressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mprogressDialog.show();
+
+        adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -47,38 +114,11 @@ public class ContactRepertory extends Activity {
                 startActivity(intent);
             }
         });
-    }
 
-    /*
-    *   Metgode qui permet d'analyser et d'afficher les numero surtaxés
-     */
-    private void viewContact(){
-    ContentResolver cr = getContentResolver();
-    Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-            null, null, null, null);
-    if (cur.getCount() > 0) {
-        while (cur.moveToNext()) {
-            String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-            String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-            if (Integer.parseInt(cur.getString(
-                    cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-                Cursor pCur = cr.query(
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                        null,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                        new String[]{id}, null);
-                while (pCur.moveToNext()) {
-                    String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    if(isSurtaxed(phoneNo)){
-                        values.add(name + " : " + phoneNo);
-                        insertNum(phoneNo);
-                    }
-                }
-                pCur.close();
-            }
-        }
+        Thread thread = new Thread(this);
+        thread.start();
+        adapter.notifyDataSetChanged();
     }
-}
 
     /*
     *   Methode static qui permet de savoir si un numéro est surtxé ou non
