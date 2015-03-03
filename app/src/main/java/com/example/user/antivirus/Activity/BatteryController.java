@@ -33,7 +33,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-
+// Classe s'occupant de l'analyse de la batterie du smartphone
 public class BatteryController extends Activity {
     static TextView textBatterie;
     ProgressBar progBar;
@@ -55,7 +55,7 @@ public class BatteryController extends Activity {
             //StrategieObservableBattery strat = new Battery();
             //level = strat.getNivBattery();
 
-            //Création d'une progressBar
+            //Création et modification d'une progressBar
             progBar = (ProgressBar) findViewById(R.id.progressBar);
             // on insere le niveau de batterie dans le textBatterie
             textBatterie.setText(level + "  %");
@@ -76,6 +76,7 @@ public class BatteryController extends Activity {
             registerReceiver(batteryLevelReceiver, batteryLevelFilter);
 
 
+            // Bouton amenant à la page de statistique de la batterie
             btnCheckBattery = (Button) findViewById(R.id.checkBattery);
 
             intentBatteryUsage = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);

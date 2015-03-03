@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+/*
+**Style utilisé pour la boîte de dialogue
+*/
+-->
+
+<resources>
+    <style name="AlertDialogCustom" parent="android:Theme.Holo.Dialog">
+        <item name="android:textColor">@color/android</item>
+        <item name="android:subtitle">@color/android</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="MyTheme">
+        <item name="android:alertDialogStyle">@style/AlertDialogCustom</item>
+    </style>
+</resources>

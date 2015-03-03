@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.example.user.antivirus.R;
 
 /**
- * Created by user on 04/12/2014.
+ * Deux boutons permettant d'accéder à l'analyse des composants
  */
 public class Option extends Activity {
     @Override

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+// Classe analysant les sms envoyés contenu dans le content://sms/sent
 public class SmsEnvoyes extends Activity {
 
     public TextView textSMS;
@@ -43,12 +43,11 @@ public class SmsEnvoyes extends Activity {
             //Création de la ArrayList qui nous permettra de remplire la listView
             ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 
-            //On déclare la HashMap qui contiendra les informations pour un item
             HashMap<String, Object> map;
-
 
             listMess = (ListView) findViewById(R.id.listView);
 
+            //Récupération des message contenu dans le content
             Uri allMessage = Uri.parse("content://sms/sent");
             ContentResolver cr = getContentResolver();
             Cursor c = cr.query(allMessage, null, null, null, null);
@@ -58,41 +57,33 @@ public class SmsEnvoyes extends Activity {
             Log.i("Date ", c.getString(4));*/
 
                 if(isSurtax(c.getString(2))) {
-                    listnum.add(c.getString(2));
-                    listpers.add(c.getString(3));
-                    listmess.add(c.getString(11));
-                    listdate.add(c.getString(4));
+                    listnum.add(c.getString(2)); // 2 -> numéro
+                    listpers.add(c.getString(3)); // 3 -> personne
+                    listmess.add(c.getString(11));// 11 -> body du sms
+                    listdate.add(c.getString(4)); //4 -> date de l'envoi
                 }
             }
             c.close();
 
+            // Ecrit un message sur l'interface si aucun message n'est suspect
             if(listnum.isEmpty()){
                 textSMS = (TextView) findViewById(R.id.SMSVide);
                 textSMS.setText("Aucun sms n'a été dernièrement envoyé à un numéro surtaxé.");
             }
 
+            //On rempli la HashMap
             int i;
             for(i=0; i<listnum.size();i++) {
-
-                //Création d'une HashMap pour insérer les informations du premier item de notre listView
                 map = new HashMap<String, Object>();
-
-                //on insère le nom de l'application
                 map.put("titre", listnum.get(i));
-                //on insère le pourcentage de batterie utilisée
                 map.put("description", listmess.get(i));
-                //on insère la référence à l'image  que l'on récupérera dans l'imageView créé dans le fichier.xml
                 map.put("img", R.drawable.d_sms);
-                //enfin on ajoute cette hashMap dans la arrayList
                 listItem.add(map);
             }
 
-
-            //Création d'un SimpleAdapter qui se chargera de mettre les items présent dans notre list (listItem) dans la vue affichageitem
             SimpleAdapter mSchedule = new SimpleAdapter(this.getBaseContext(), listItem, R.layout.affichageapp,
                     new String[]{"img", "titre", "description"}, new int[]{R.id.img, R.id.titre, R.id.description});
 
-            //On attribut à notre listView l'adapter que l'on vient de créer
             listMess.setAdapter(mSchedule);
 
         }

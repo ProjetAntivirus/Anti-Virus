@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.example.user.antivirus.R;
 
 /**
- * Created by user on 23/02/2015.
+ * Deux boutons permettant d'accéder à l'analyse des sms
  */
 public class SMS extends Activity {
 

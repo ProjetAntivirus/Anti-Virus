@@ -1,28 +1,18 @@
 package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.BatteryManager;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.os.StatFs;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,20 +20,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.user.antivirus.R;
-
 import java.io.File;
-import java.net.URI;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 /*
-    Classe s'occupant du traitement de la mémoire
+    Classe s'occupant du traitement (de l'analyse) de la mémoire (smartphone et applications)
  */
 public class MemoryController extends Activity {
 
@@ -52,54 +37,17 @@ public class MemoryController extends Activity {
 
     // récupération des applications installées sur le mobile
     public List<ApplicationInfo> applicationName() {
-        //Récupère la liste des applications installées
         PackageManager appInfo = getPackageManager();
         List<ApplicationInfo> list = appInfo.getInstalledApplications(0);
         //Trie les applications par leur nom d'affichage
         Collections.sort(list, new ApplicationInfo.DisplayNameComparator(appInfo));
         for (ApplicationInfo applicationInfo : list) {
-            //Récupère le nom de l'application
             Log.i("ApplicationList", "application=" + getPackageManager().getApplicationLabel(applicationInfo));
         }
         return list;
     }
 
-
-    //Notification memoire
-    public int ID_NOTIFICATION = 0;
-    int icon = R.drawable.and_virus;
-    CharSequence tickerText = "Notification Mémoire";
-
-
-    ActivityManager activityManager;
-    ActivityManager.MemoryInfo memoryInfo;
-    final String TAG = "MemInfo";
-
-    public void getFreeMemory() {
-            /*Parcelable p = new ActivityManager.MemoryInfo();
-            ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-            ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
-            ActivityManager.MemoryInfo.
-                    activityManager.getMemoryInfo(mi);
-            long freeMemory = mi.availMem / 1048576L;
-            long memory = mi.describeContents();
-            textMemoire.setText(memory + " / " + freeMemory);*/
-
-            /*activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-            memoryInfo = new ActivityManager.MemoryInfo();
-
-            activityManager.getMemoryInfo(memoryInfo);
-
-            Log.i(TAG, " memoryInfo.availMem " + memoryInfo.availMem);
-            Log.i(TAG, " memoryInfo.lowMemory " + memoryInfo.lowMemory);
-            Log.i(TAG, " memoryInfo.threshold " + memoryInfo.threshold);
-
-            Toast.makeText(getApplicationContext(), String.valueOf(memoryInfo.availMem), Toast.LENGTH_LONG)
-                    .show();*/
-    }
-
-
-
+    //Mémoire totale du smartphone
     public long TotalMemory()
     {
         StatFs statFs = new StatFs(Environment.getRootDirectory().getAbsolutePath());
@@ -107,6 +55,7 @@ public class MemoryController extends Activity {
         return Total;
     }
 
+    //Mémoire disponible du smartphone
     public long FreeMemory()
     {
         StatFs statFs = new StatFs(Environment.getRootDirectory().getAbsolutePath());
@@ -114,6 +63,7 @@ public class MemoryController extends Activity {
         return Free;
     }
 
+    //Mémoire occupée du smartphone
     public long BusyMemory()
     {
         StatFs statFs = new StatFs(Environment.getRootDirectory().getAbsolutePath());
@@ -123,35 +73,10 @@ public class MemoryController extends Activity {
         return Busy;
     }
 
-
-    public static String floatForm (double d)
-    {
-        return new DecimalFormat("#.##").format(d);
+    //Convertion pour la taille
+    private String Size(long size){
+        return Formatter.formatFileSize(MemoryController.this, size);
     }
-
-
-    public static String convertion (long size)
-    {
-        //size = size /8;
-        long Kb = 1  * 1024;
-        long Mb = Kb * 1024;
-        long Gb = Mb * 1024;
-        long Tb = Gb * 1024;
-        long Pb = Tb * 1024;
-        long Eb = Pb * 1024;
-
-        if (size <  Kb)                 return floatForm(        size     ) + " byte";
-        if (size >= Kb && size < Mb)    return floatForm((double)size / Kb) + " Kb";
-        if (size >= Mb && size < Gb)    return floatForm((double)size / Mb) + " Mb";
-        if (size >= Gb && size < Tb)    return floatForm((double)size / Gb) + " Gb";
-        if (size >= Tb && size < Pb)    return floatForm((double)size / Tb) + " Tb";
-        if (size >= Pb && size < Eb)    return floatForm((double)size / Pb) + " Pb";
-        if (size >= Eb)                 return floatForm((double)size / Eb) + " Eb";
-
-        return "???";
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,31 +84,31 @@ public class MemoryController extends Activity {
 
         textMemoire = (TextView) findViewById(R.id.memory);
         long totalMemory = TotalMemory();
-        String memTotal = convertion(totalMemory); // 1,15 Gb
+        String memTotal = Size(totalMemory);
         long freeMemory = FreeMemory();
-        String memDispo = convertion(freeMemory); // 298,51 Mb
+        String memDispo = Size(freeMemory);
         long busyMemory = BusyMemory();
-        String memOccup = convertion(busyMemory); // 882,62 Mb
+        String memOccup = Size(busyMemory);
+        //insertion des valaurs correspondant à la mémoire du smartphone
         textMemoire.setText("\nMémoire totale : "+memTotal+"\n"
                 + "Mémoire disponible : "+memDispo+"\n"
                 + "Mémoire occupée : "+memOccup+"\n");
 
-
-
-        //Récupération de la listview créée dans le fichier Listapp.xml
         listApplication = (ListView) findViewById(R.id.listapp);
 
-        //récupérer applications (nom et icon)
+        //récupérer applications (nom, icon, taille)
         List<ApplicationInfo> listAppli= applicationName();
         final List<String> listNameApp = new ArrayList<String>();
-        List<Drawable> listIconApp = new ArrayList();
-        // List<int> listMemoryApp = new ArrayList();
+        final List<Drawable> listIconApp = new ArrayList();
+        ArrayList listMemoryApp = new ArrayList();
 
         for(ApplicationInfo applicationInfo : listAppli){
             PackageManager pack = getPackageManager();
             listNameApp.add((String)pack.getApplicationLabel(applicationInfo));
             listIconApp.add(pack.getApplicationIcon(applicationInfo));
-            // listMemoryApp.add(String.valueOf(pack.ge));
+
+            long size = new File(applicationInfo.sourceDir).length();
+            listMemoryApp.add(Size(size));
         }
 
 
@@ -193,36 +118,33 @@ public class MemoryController extends Activity {
         //On déclare la HashMap qui contiendra les informations pour un item
         HashMap<String, Object> map;
 
-        int memory;
+        Object memory;
         Drawable image;
         int i = 0;
         for(String app : listNameApp) {
             image = null;
             app = null;
-            memory = 0;
+            memory = listMemoryApp.get(i);
             app = listNameApp.get(i);
             image =listIconApp.get(i);
 
 
-            //Création d'une HashMap pour insérer les informations du premier item de notre listView
+            //Création d'une HashMap et insertion des différents éléments
             map = new HashMap<String, Object>();
-            //on insère le nom de l'application
             map.put("titre", app);
-            //on insère le pourcentage de batterie utilisée
             map.put("description", memory);
-            //on insère la référence à l'image (convertit en String car normalement c'est un int) que l'on récupérera dans l'imageView créé dans le fichier affichageitem.xml
             map.put("img", image);
-            //enfin on ajoute cette hashMap dans la arrayList
+            //ajout hashMap dans arrayList
             listItem.add(map);
 
             ++i;
         }
 
-        //Création d'un SimpleAdapter qui se chargera de mettre les items présent dans notre list (listItem) dans la vue affichageitem
+        //Création d'un SimpleAdapter qui se chargera de mettre les items présent
         SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichageapp,
                 new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
 
-        //On attribut à notre listView l'adapter que l'on vient de créer
+        //On attribut à notre listView l'adapter
         listApplication.setAdapter(mSchedule);
         mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
             public boolean setViewValue(View view, Object data, String textRepresentation) {
@@ -239,43 +161,40 @@ public class MemoryController extends Activity {
             @Override
             @SuppressWarnings("unchecked")
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                //on récupère la HashMap contenant les infos de notre app
+                //HashMap contenant les infos de notre app
                 HashMap<String, String> map = (HashMap<String, String>) listApplication.getItemAtPosition(position);
                 //on créer une boite de dialogue
-                AlertDialog.Builder adb = new AlertDialog.Builder(MemoryController.this);
-                //on attribut un titre à notre boite de dialogue
-                adb.setMessage(map.get("titre"));
+                AlertDialog.Builder adb = new AlertDialog.Builder(MemoryController.this, R.style.AlertDialogCustom);
+                //remplissage de la boite de dialogue
+                adb.setIcon(listIconApp.get(position));
+                adb.setTitle(map.get("titre"));
                 final String name = map.get("titre");
-                //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+
                 adb.setMessage("Voulez-vous désinstaller cette application ?");
-                //on indique que l'on veut des boutons
+
                 adb.setNegativeButton("Annuler", null);
                 adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which){
 
+                        //récupération du nom du package pour la désinstallation de l'appli
                         List<ApplicationInfo> listAppli= applicationName();
                         for(ApplicationInfo applicationInfo : listAppli){
                             PackageManager pack = getPackageManager();
                             String app =(String)pack.getApplicationLabel(applicationInfo);
                             if(app == name){
-                                String dir = applicationInfo.sourceDir;
                                 String name = applicationInfo.packageName;
-                                //String path = applicationInfo.installLocation;
-                                Uri packageUri = Uri.parse(name);
-                                Intent uninstallIntent =
-                                        new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri );
-                                startActivity(uninstallIntent);
+                                Uri packageURI = Uri.parse("package:"+name);
+                                startActivity(new Intent(Intent.ACTION_DELETE, packageURI));
                             }
                         }
-
-                        Uri packageUri = Uri.parse("package:com.packageName");
-                        Intent uninstallIntent =
-                                new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
-                        startActivity(uninstallIntent);
                     }
                 });
                 //on affiche la boite de dialogue
-                adb.show();
+                Dialog d = adb.show();
+                int dividerId = d.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
+                View divider = d.findViewById(dividerId);
+                divider.setBackgroundColor(getResources().getColor(R.color.android));
+
             }
         });
 

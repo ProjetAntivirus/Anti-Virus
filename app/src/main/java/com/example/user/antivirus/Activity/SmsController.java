@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.example.user.antivirus.R;
 
 /**
- * Created by Pierre on 13/12/2014.
+ * Deux boutons permettant l'analyse du repertoire et des sms envoyés
  */
 public class SmsController extends Activity {
 
