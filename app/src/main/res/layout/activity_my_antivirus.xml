@@ -71,7 +71,7 @@
                 android:text="Analyser les applications"
                 android:id="@+id/buttonApp"
                 android:textColor="#99CC00"
-                android:onClick="construction" />
+                />
 
         </LinearLayout>
 

@@ -9,8 +9,7 @@
 <resources>
     <style name="AlertDialogCustom" parent="android:Theme.Holo.Dialog">
         <item name="android:textColor">@color/android</item>
-        <item name="android:subtitle">@color/android</item>
-        <item name="android:windowBackground">@color/transparent</item>
+         <item name="android:windowBackground">@color/transparent</item>
     </style>
 
     <style name="MyTheme">

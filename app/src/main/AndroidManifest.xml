@@ -51,5 +51,7 @@
         <activity android:name=".Activity.ContactRepertory" android:label="Répertoire"/>
         <activity android:name=".Activity.SmsEnvoyes" android:label="Sms envoyés"/>
         <activity android:name=".Activity.SMS" android:label="Analyser les flux"/>
+        <activity android:name=".Activity.Applications" android:label="Analyser les applications"/>
+        <activity android:name=".Activity.Permissions" android:label="Les permissions des applications"/>
     </application>
 </manifest>

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.user.antivirus.Activity.Applications;
 import com.example.user.antivirus.Activity.EnConstruction;
 import com.example.user.antivirus.Activity.Option;
 import com.example.user.antivirus.Activity.SMS;
@@ -35,6 +36,7 @@ public class MainActivity extends Activity {
             }
         });
 
+
         final Button Flux = (Button) findViewById(R.id.buttonFlux);
         Flux.setOnClickListener(new View.OnClickListener() {
 
@@ -50,7 +52,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EnConstruction.class);
+                Intent intent = new Intent(MainActivity.this, Applications.class);
                 startActivity(intent);
             }
         });
