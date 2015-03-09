@@ -70,7 +70,7 @@ public class Permissions extends Activity {
             //Log.d("test", "App: " + applicationInfo.name + " Package: " + applicationInfo.packageName);
 
             listNameApp.add((String) pm.getApplicationLabel(applicationInfo));
-            listIconApp.add(pm.getApplicationIcon(applicationInfo));
+            //listIconApp.add(pm.getApplicationIcon(applicationInfo));
             //Ajout de l'application
             listDataHeader.add(listNameApp.get(j));
             //listImage.add(listIconApp.get(j));
@@ -80,33 +80,47 @@ public class Permissions extends Activity {
                 //Récupérer la liste des permissions
                 PackageInfo packageInfo = pm.getPackageInfo(applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
                 String[] requestedPermissions = packageInfo.requestedPermissions;
-                if (requestedPermissions != null) {
-                    listpermission.clear();
+                String Permission = " * ";
+                listpermission.clear();
+
+                if (requestedPermissions == null)
+                {
+                    Permission = "Aucune permission n'est requise pour cette application";
+                    listpermission.add(Permission);
+                }
+                else {
                     for (int i = 0; i < requestedPermissions.length; i++) {
                         // Log.d("test", requestedPermissions[i]);
+                        Pattern p = Pattern.compile("[A-Z]");
 
-                        Pattern p = Pattern .compile("[A-Z]");
                         String entree = requestedPermissions[i];
-                        Matcher  m = p.matcher(entree);
+                        Matcher m = p.matcher(entree);
                         String name = " * ";
-                        int position =0;
-                        if(m.find()){position = m.start();}
+                        int position = 0;
+                        if (m.find()) {
+                            position = m.start();
+                        }
                         //Récupère juste le nom (en majuscule) de la permission
                         name = entree.substring(position, entree.length());
                         //Récupère la description de la permission
                         PermissionInfo PI = pm.getPermissionInfo(requestedPermissions[i], pm.GET_META_DATA);
                         CharSequence CS = PI.loadDescription(pm);
-                        if(CS == null){CS = "Aucune desciption.";}
-                        String Permission = name + " : " + CS.toString();
+                        if (CS == null) {
+                            CS = "Aucune desciption.";
+                        }
+                        Permission = name + " : " + CS.toString();
 
                         listpermission.add(Permission);
-
                     }
                 }
+
                 //Ajout des permissions
                 listDataChild.put(listDataHeader.get(j), listpermission);
+
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
+                // Meme si l'une des permissions génère cette exception on ajoute quand même les autres dans la liste
+                listDataChild.put(listDataHeader.get(j), listpermission);
             }
             j++;
         }
