@@ -15,7 +15,7 @@
             android:layout_width="69dp"
             android:layout_height="69dp"
             android:id="@+id/imageView4"
-            android:background="@drawable/sms"
+            android:background="@drawable/i_sms"
             android:layout_gravity="center" />
 
         <Button

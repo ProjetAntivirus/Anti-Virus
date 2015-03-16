@@ -43,7 +43,7 @@ public class Applications extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Applications.this, EnConstruction.class);
+                Intent intent = new Intent(Applications.this, AppServices.class);
                 startActivity(intent);
             }
         });

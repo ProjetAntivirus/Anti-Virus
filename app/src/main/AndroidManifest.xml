@@ -53,5 +53,6 @@
         <activity android:name=".Activity.SMS" android:label="Analyser les flux"/>
         <activity android:name=".Activity.Applications" android:label="Analyser les applications"/>
         <activity android:name=".Activity.Permissions" android:label="Les permissions des applications"/>
+        <activity android:name=".Activity.AppServices" android:label="Les services utilisés"/>
     </application>
 </manifest>
