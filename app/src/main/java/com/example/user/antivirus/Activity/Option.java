@@ -1,12 +1,18 @@
 package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.user.antivirus.R;
+import com.example.user.antivirus.contentProvider.MyProvider;
+import com.example.user.antivirus.contentProvider.table;
 
 /**
  * Deux boutons permettant d'accéder à l'analyse des composants

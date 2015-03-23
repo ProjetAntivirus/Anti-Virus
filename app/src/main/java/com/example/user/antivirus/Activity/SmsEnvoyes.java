@@ -2,15 +2,16 @@ package com.example.user.antivirus.Activity;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.user.antivirus.R;
+import com.example.user.antivirus.contentProvider.table;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +62,11 @@ public class SmsEnvoyes extends Activity {
                     listpers.add(c.getString(3)); // 3 -> personne
                     listmess.add(c.getString(11));// 11 -> body du sms
                     listdate.add(c.getString(4)); //4 -> date de l'envoi
+                    ContentValues value = new ContentValues();
+                    value.put(table.Sms.SMS_NUMERO, c.getString(2));
+                    value.put(table.Sms.SMS_MESSAGE, c.getString(11));
+                    value.put(table.Sms.SMS_DATE, c.getString(4));
+                    getContentResolver().insert(table.Sms.CONTENT_SMS, value);
                 }
             }
             c.close();

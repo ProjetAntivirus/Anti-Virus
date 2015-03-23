@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -22,78 +24,77 @@ public class MyProvider extends ContentProvider{
     static final String URL = "content://" + PROVIDER_NAME + "/cte";
     public static final Uri CONTENT_URI = Uri.parse(URL);
 
-    static final int uriCode = 1;
     static final UriMatcher uriMatcher;
     private static HashMap<String, String> values;
+
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(PROVIDER_NAME, "cte", uriCode);
-        uriMatcher.addURI(PROVIDER_NAME, "cte/*", uriCode);
+        uriMatcher.addURI(PROVIDER_NAME, "SMS", table.Sms.uriCodeSMS);
+        uriMatcher.addURI(PROVIDER_NAME, "SMS/#", table.Sms.uriCodeSMS);
+        uriMatcher.addURI(PROVIDER_NAME, "BATTERY", table.Battery.uriCodeBATTERY);
+        uriMatcher.addURI(PROVIDER_NAME, "BATTERY/#", table.Battery.uriCodeBATTERY);
+        uriMatcher.addURI(PROVIDER_NAME, "CONTACT", table.Contact.uriCodeCONTACT);
+        uriMatcher.addURI(PROVIDER_NAME, "CONTACT/#", table.Contact.uriCodeCONTACT);
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         int count = 0;
-        switch (uriMatcher.match(uri)) {
-            case uriCode:
-                count = db.delete(SharedInformation.BatteryInformation.TABLE_NAME, selection, selectionArgs);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI " + uri);
-        }
+        SQLiteDatabase db = this.getDataBase(uri);
+        count = db.delete(this.getDataBaseName(db), selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
 
     @Override
     public String getType(Uri uri) {
-        switch (uriMatcher.match(uri)) {
-            case uriCode:
-                return "vnd.android.cursor.dir/cte";
-
-            default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
-        }
+        return "vnd.android.cursor.dir/cte";
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        long rowID = db.insert(SharedInformation.BatteryInformation.TABLE_NAME, "", values);
+        SQLiteDatabase db = getDataBase(uri);
+        long rowID = db.insert(this.getDataBaseName(db), "", values);
         if (rowID > 0) {
-            Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
+            Uri _uri = ContentUris.withAppendedId(uri, rowID);
             getContext().getContentResolver().notifyChange(_uri, null);
             return _uri;
         }
         throw new SQLException("Failed to add a record into " + uri);
+
     }
 
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
-        db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            return true;
+        table.Sms sms = new table.Sms(context);
+        smsDb = sms.getWritableDatabase();
+        if (smsDb == null){
+            return false;
         }
-        return false;
+        table.Battery battery = new table.Battery(context);
+        batteryDb = battery.getWritableDatabase();
+        if (batteryDb == null){
+            return false;
+        }
+
+        table.Contact contact = new table.Contact(context);
+        contactDb = contact.getWritableDatabase();
+        if (contactDb == null){
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
-                        String[] selectionArgs, String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection,String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(SharedInformation.BatteryInformation.TABLE_NAME);
-
-        switch (uriMatcher.match(uri)) {
-            case uriCode:
+        SQLiteDatabase db = getDataBase(uri);
+        qb.setTables(this.getDataBaseName(db));
                 qb.setProjectionMap(values);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI " + uri);
-        }
-        if (sortOrder == null || sortOrder == "") {
+        /*if (sortOrder == null || sortOrder == "") {
             sortOrder = String.valueOf(SharedInformation.BatteryInformation.DATE);
-        }
+        }*/
         Cursor c = qb.query(db, projection, selection, selectionArgs, null,
                 null, sortOrder);
         c.setNotificationUri(getContext().getContentResolver(), uri);
@@ -101,38 +102,42 @@ public class MyProvider extends ContentProvider{
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection,
-                      String[] selectionArgs) {
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int count = 0;
-        switch (uriMatcher.match(uri)) {
-            case uriCode:
-                count = db.update(SharedInformation.BatteryInformation.TABLE_NAME, values, selection, selectionArgs);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI " + uri);
-        }
+        SQLiteDatabase db = getDataBase(uri);
+        count = db.update(this.getDataBaseName(db), values, selection, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
 
-    private SQLiteDatabase db;
-    static final String DATABASE_NAME = "antivirusDB";
-    static final int DATABASE_VERSION = 1;
+    private SQLiteDatabase smsDb;
+    private SQLiteDatabase batteryDb;
+    private SQLiteDatabase contactDb;
 
-    private static class DatabaseHelper extends SQLiteOpenHelper {
-        DatabaseHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    private SQLiteDatabase getDataBase (Uri uri){
+        switch (uriMatcher.match(uri)){
+            case table.Sms.uriCodeSMS:
+                return smsDb;
+            case table.Battery.uriCodeBATTERY:
+                return batteryDb;
+            case table.Contact.uriCodeCONTACT:
+                return contactDb;
+            default:
+                throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
+    }
 
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(SharedInformation.BatteryInformation.CREATE_DB_TABLE);
+    private String getDataBaseName (SQLiteDatabase db){
+        if (db == smsDb){
+            return table.Sms.DATABASE_NAME;
         }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + SharedInformation.BatteryInformation.TABLE_NAME);
-            onCreate(db);
+        if (db == batteryDb){
+            return table.Battery.DATABASE_NAME;
         }
+        if (db == contactDb){
+            return table.Contact.DATABASE_NAME;
+        }
+        else
+            throw  new IllegalArgumentException("Unsupported DATABASE: " + db);
     }
 }

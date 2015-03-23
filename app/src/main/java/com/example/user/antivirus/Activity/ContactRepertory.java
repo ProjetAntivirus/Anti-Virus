@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.user.antivirus.R;
+import com.example.user.antivirus.contentProvider.table;
 
 import java.util.ArrayList;
 
@@ -73,6 +75,10 @@ public class ContactRepertory extends Activity implements Runnable{
                         handler.sendEmptyMessage(0);
                         if(isSurtaxed(phoneNo)){
                             values.add(name+" : "+phoneNo);
+                            ContentValues value = new ContentValues();
+                            value.put(table.Contact.CONTACT_NUMERO, phoneNo);
+                            value.put(table.Contact.CONTACT_DATE, System.currentTimeMillis());
+                            getContentResolver().insert(table.Contact.CONTENT_CONTACT, value);
                             insertNum(phoneNo);
                         }
                     }

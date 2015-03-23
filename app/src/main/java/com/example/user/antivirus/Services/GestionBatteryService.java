@@ -15,7 +15,7 @@ import com.example.user.antivirus.BatteryTest;
 import com.example.user.antivirus.ConfigApp;
 import com.example.user.antivirus.StrategieObservableBattery;
 import com.example.user.antivirus.contentProvider.MyProvider;
-import com.example.user.antivirus.contentProvider.SharedInformation;
+import com.example.user.antivirus.contentProvider.table;
 
 /**
  * Created by Max on 26/01/2015.
@@ -71,10 +71,9 @@ public class GestionBatteryService extends Service{
      */
     private void insertData(int niveauBattery){
         ContentValues values = new ContentValues();
-        values.put(SharedInformation.BatteryInformation.LEVEL, niveauBattery);
-        values.put(SharedInformation.BatteryInformation.DATE, System.currentTimeMillis());
-        getContentResolver().insert(MyProvider.CONTENT_URI, values);
-        Toast.makeText(this, "Insertion de : "+String.valueOf(niveauBattery)+System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
+        values.put(table.Battery.BATTERY_LEVEL, niveauBattery);
+        values.put(table.Battery.BATTERY_DATE, System.currentTimeMillis());
+        getContentResolver().insert(table.Battery.CONTENT_BATTERY, values);
     }
 
     /*
@@ -85,17 +84,13 @@ public class GestionBatteryService extends Service{
      */
     public void algoDetection (){
         int niveauBattery = strategieObservableBattery.getNivBattery();
-        BatteryController.setText(String.valueOf(niveauBattery));
-        MyProvider provider = new MyProvider();
-        String columns[] = new String[] {SharedInformation.BatteryInformation.ID, SharedInformation.BatteryInformation.LEVEL, SharedInformation.BatteryInformation.DATE };
-        Uri mContacts = MyProvider.CONTENT_URI;
-        Cursor cursor = null;// provider.query(mContacts, columns, null, null, "ASC");
+        Cursor cursor = getContentResolver().query(table.Battery.CONTENT_BATTERY, null, null, null, null);
         //Si la base de données est vide
-        if (cursor == null) {
+        if (cursor.getCount() == 0) {
             insertData(niveauBattery);
         } else {
             // si la date actuel - la derniere date insere dans la base de donnees est <= TIME_ALGO minutes alors
-            if (cursor.getColumnIndex(SharedInformation.BatteryInformation.DATE) - System.currentTimeMillis() <= ConfigApp.TIMER_ALGO) {
+            if (cursor.getLong(cursor.getColumnIndex(table.Battery.BATTERY_DATE)) - System.currentTimeMillis() <= ConfigApp.TIMER_ALGO) {
                 insertData(niveauBattery);
                 //et on demare le service qui gère les notifications pour avertir l'utilisateur
                 Intent service1 = new Intent(getApplicationContext(), NotificationService.class);

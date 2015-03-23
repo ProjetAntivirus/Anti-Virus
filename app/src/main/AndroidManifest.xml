@@ -16,43 +16,43 @@
     <application android:allowBackup="true" android:icon="@drawable/and_virus" android:label="Antivirus" android:theme="@style/AppTheme" >
 
         // Autorisations pour les receivers
-        <receiver class=".BroadcastReceiver.SMSReceiver" android:name=".BroadcastReceiver.SMSReceiver">
+        <receiver class=".BroadcastReceiver.SMSReceiver" android:name="com.example.user.antivirus.BroadcastReceiver.SMSReceiver">
             <intent-filter android:priority="100"> <action android:name="android.provider.Telephony.SMS_RECEIVED" /> </intent-filter></receiver>
-        <receiver android:name=".BroadcastReceiver.BroadcastReceiverBattery">
+        <receiver android:name="com.example.user.antivirus.BroadcastReceiver.BroadcastReceiverBattery">
             <intent-filter> <action android:name="android.intent.action.ACTION_CHANGED"/></intent-filter></receiver>
-        <receiver android:enabled="true" android:exported="false" class=".BroadcastReceiver.OnBootReceiver" android:name=".BroadcastReceiver.OnBootReceiver">
+        <receiver android:enabled="true" android:exported="false" class=".BroadcastReceiver.OnBootReceiver" android:name="com.example.user.antivirus.BroadcastReceiver.OnBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action._BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         // Autorisation pour les services
-        <service android:name=".Services.NotificationService" android:enabled="true" />
-        <service android:name=".Services.GestionBatteryService" android:enabled="true" />
+        <service android:name="com.example.user.antivirus.Services.NotificationService" android:enabled="true" />
+        <service android:name="com.example.user.antivirus.Services.GestionBatteryService" android:enabled="true" />
 
         // Autorisation pour le content provider
-        <provider android:name=".contentProvider.MyProvider" android:authorities="com.antivirus.provider"
+        <provider android:name="com.example.user.antivirus.contentProvider.MyProvider" android:authorities="com.example.contentproviderexample.MyProvider"
             android:exported="true"  android:multiprocess="true" > </provider>
 
         //Declaration des activitées
         <activity
-            android:name="MainActivity"
+            android:name="com.example.user.antivirus.MainActivity"
             android:label="Antivirus" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Option" android:label="Analyser les composants" />
-        <activity android:name=".Activity.EnConstruction" android:label="En cours de développement" />
-        <activity android:name=".Activity.MemoryController" android:label="Memoire" />
-        <activity android:name=".Activity.BatteryController" android:label="Batterie" />
-        <activity android:name=".Activity.SmsController" android:label="SMS" />
-        <activity android:name=".Activity.ContactRepertory" android:label="Répertoire"/>
-        <activity android:name=".Activity.SmsEnvoyes" android:label="Sms envoyés"/>
-        <activity android:name=".Activity.SMS" android:label="Analyser les flux"/>
-        <activity android:name=".Activity.Applications" android:label="Analyser les applications"/>
-        <activity android:name=".Activity.Permissions" android:label="Les permissions des applications"/>
-        <activity android:name=".Activity.AppServices" android:label="Les services utilisés"/>
+        <activity android:name="com.example.user.antivirus.Activity.Option" android:label="Analyser les composants" />
+        <activity android:name="com.example.user.antivirus.Activity.EnConstruction" android:label="En cours de développement" />
+        <activity android:name="com.example.user.antivirus.Activity.MemoryController" android:label="Memoire" />
+        <activity android:name="com.example.user.antivirus.Activity.BatteryController" android:label="Batterie" />
+        <activity android:name="com.example.user.antivirus.Activity.SmsController" android:label="SMS" />
+        <activity android:name="com.example.user.antivirus.Activity.ContactRepertory" android:label="Répertoire"/>
+        <activity android:name="com.example.user.antivirus.Activity.SmsEnvoyes" android:label="Sms envoyés"/>
+        <activity android:name="com.example.user.antivirus.Activity.SMS" android:label="Analyser les flux"/>
+        <activity android:name="com.example.user.antivirus.Activity.Applications" android:label="Analyser les applications"/>
+        <activity android:name="com.example.user.antivirus.Activity.Permissions" android:label="Les permissions des applications"/>
+        <activity android:name="com.example.user.antivirus.Activity.AppServices" android:label="Les services utilisés"/>
     </application>
 </manifest>

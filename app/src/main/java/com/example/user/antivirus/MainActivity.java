@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.user.antivirus.Activity.Applications;
-import com.example.user.antivirus.Activity.EnConstruction;
 import com.example.user.antivirus.Activity.Option;
 import com.example.user.antivirus.Activity.SMS;
 import com.example.user.antivirus.Services.GestionBatteryService;
