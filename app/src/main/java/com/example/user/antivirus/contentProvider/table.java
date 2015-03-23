@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 /**
  * Created by Maxime on 20/03/2015.
@@ -13,7 +12,7 @@ public class table {
     private table (){}
 
     public static final class Sms extends SQLiteOpenHelper {
-        public static final Uri CONTENT_SMS = Uri.parse("content://" + MyProvider.PROVIDER_NAME + "/SMS");
+        public static final Uri CONTENT_SMS = Uri.parse("content://" + AntivirusProvider.PROVIDER_NAME + "/SMS");
         static final int uriCodeSMS = 1;
 
         static final String DATABASE_NAME = "SMSDB";
@@ -46,7 +45,7 @@ public class table {
     }
 
     public static final class Battery extends SQLiteOpenHelper{
-        public static final Uri CONTENT_BATTERY = Uri.parse("content://" + MyProvider.PROVIDER_NAME + "/BATTERY");
+        public static final Uri CONTENT_BATTERY = Uri.parse("content://" + AntivirusProvider.PROVIDER_NAME + "/BATTERY");
         static final int uriCodeBATTERY = 2;
 
         static final String DATABASE_NAME = "BATTERYDB";
@@ -77,7 +76,7 @@ public class table {
     }
 
     public static final class Contact extends SQLiteOpenHelper{
-        public static final Uri CONTENT_CONTACT = Uri.parse("content://" + MyProvider.PROVIDER_NAME + "/CONTACT");
+        public static final Uri CONTENT_CONTACT = Uri.parse("content://" + AntivirusProvider.PROVIDER_NAME + "/CONTACT");
         static final int uriCodeCONTACT = 3;
 
         static final String DATABASE_NAME = "CONTACTDB";

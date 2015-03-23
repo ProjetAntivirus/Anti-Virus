@@ -31,7 +31,7 @@
         <service android:name="com.example.user.antivirus.Services.GestionBatteryService" android:enabled="true" />
 
         // Autorisation pour le content provider
-        <provider android:name="com.example.user.antivirus.contentProvider.MyProvider" android:authorities="com.example.contentproviderexample.MyProvider"
+        <provider android:name=".contentProvider.AntivirusProvider" android:authorities="com.example.contentproviderexample.MyProvider"
             android:exported="true"  android:multiprocess="true" > </provider>
 
         //Declaration des activitées

@@ -19,7 +19,7 @@ import java.util.HashMap;
 /**
  * Created by Max on 11/02/2015.
  */
-public class MyProvider extends ContentProvider{
+public class AntivirusProvider extends ContentProvider{
     static final String PROVIDER_NAME = "com.example.contentproviderexample.MyProvider";
     static final String URL = "content://" + PROVIDER_NAME + "/cte";
     public static final Uri CONTENT_URI = Uri.parse(URL);
